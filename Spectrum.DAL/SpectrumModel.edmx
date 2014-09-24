@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SpectrumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LU_Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialTypeID" Type="int" Nullable="false" />
+          <Property Name="Material" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Density" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Environmental Impact Factor" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Thickness" Type="decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="LU_MaterialType">
+          <Key>
+            <PropertyRef Name="MaterialTypeID" />
+          </Key>
+          <Property Name="MaterialTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Material Type" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_LU_Material_LU_MaterialType">
+          <End Role="LU_MaterialType" Type="Self.LU_MaterialType" Multiplicity="1" />
+          <End Role="LU_Material" Type="Self.LU_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LU_MaterialType">
+              <PropertyRef Name="MaterialTypeID" />
+            </Principal>
+            <Dependent Role="LU_Material">
+              <PropertyRef Name="MaterialTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpectrumModelStoreContainer">
+          <EntitySet Name="LU_Material" EntityType="Self.LU_Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LU_MaterialType" EntityType="Self.LU_MaterialType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LU_Material_LU_MaterialType" Association="Self.FK_LU_Material_LU_MaterialType">
+            <End Role="LU_MaterialType" EntitySet="LU_MaterialType" />
+            <End Role="LU_Material" EntitySet="LU_Material" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SpectrumModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SpectrumDBContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="LU_MaterialType" EntityType="SpectrumModel.LU_MaterialType" />
+          <EntitySet Name="LU_Material" EntityType="SpectrumModel.LU_Material" />
+          <AssociationSet Name="FK_LU_Material_LU_MaterialType" Association="SpectrumModel.FK_LU_Material_LU_MaterialType">
+            <End Role="LU_MaterialType" EntitySet="LU_MaterialType" />
+            <End Role="LU_Material" EntitySet="LU_Material" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LU_MaterialType">
+          <Key>
+            <PropertyRef Name="MaterialTypeID" />
+          </Key>
+          <Property Name="MaterialTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Material_Type" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="LU_Material" Relationship="SpectrumModel.FK_LU_Material_LU_MaterialType" FromRole="LU_MaterialType" ToRole="LU_Material" />
+        </EntityType>
+        <EntityType Name="LU_Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Material" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Density" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Environmental_Impact_Factor" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Thickness" Type="Decimal" Precision="18" Scale="10" />
+          <NavigationProperty Name="LU_MaterialType" Relationship="SpectrumModel.FK_LU_Material_LU_MaterialType" FromRole="LU_Material" ToRole="LU_MaterialType" />
+        </EntityType>
+        <Association Name="FK_LU_Material_LU_MaterialType">
+          <End Type="SpectrumModel.LU_MaterialType" Role="LU_MaterialType" Multiplicity="1" />
+          <End Type="SpectrumModel.LU_Material" Role="LU_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LU_MaterialType">
+              <PropertyRef Name="MaterialTypeID" />
+            </Principal>
+            <Dependent Role="LU_Material">
+              <PropertyRef Name="MaterialTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SpectrumModelStoreContainer" CdmEntityContainer="SpectrumDBContext">
+          <EntitySetMapping Name="LU_MaterialType">
+            <EntityTypeMapping TypeName="SpectrumModel.LU_MaterialType">
+              <MappingFragment StoreEntitySet="LU_MaterialType">
+                <ScalarProperty Name="Material_Type" ColumnName="Material Type" />
+                <ScalarProperty Name="MaterialTypeID" ColumnName="MaterialTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LU_Material">
+            <EntityTypeMapping TypeName="SpectrumModel.LU_Material">
+              <MappingFragment StoreEntitySet="LU_Material">
+                <ScalarProperty Name="Thickness" ColumnName="Thickness" />
+                <ScalarProperty Name="Environmental_Impact_Factor" ColumnName="Environmental Impact Factor" />
+                <ScalarProperty Name="Density" ColumnName="Density" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="MaterialTypeID" ColumnName="MaterialTypeID" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
